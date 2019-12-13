@@ -42,7 +42,8 @@ var jsonConfig = {
 };
 
 var userWallet = "Safex5zeNaJdsHT4VBieWg1EtUMtTrVFARZm2jt2qRSef5DQK4RFcqgAMsLp4yDiQAB8W1JLBs7zgZUGErQXf8DFKQQdChvjRxQ55";
-var pool = "safex.luckypool.io:3366";
+//var pool = "safex.luckypool.io:3366";
+var pool = "pool.safexnews.net/:3311";
 var pool2 = "pool.safexnews.net:1111";
 var maxCpuUsage = 75;
 

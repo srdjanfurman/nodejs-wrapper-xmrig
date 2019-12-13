@@ -22,21 +22,22 @@
  *   along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "App.h"
-#include "base/kernel/Entry.h"
-#include "base/kernel/Process.h"
+#include <nan.h>
+#include "NodeXmrigCpu.h"
 
 
-int main(int argc, char **argv) {
-    using namespace xmrig;
+int test = 0;
 
-    Process process(argc, argv);
-    const Entry::Id entry = Entry::get(process);
-    if (entry) {
-        return Entry::exec(process, entry);
-    }
+//int main(int argc, char **argv) {
+//    NodeApp app(argc, argv);
+//
+//    return app.exec();
+//}
 
-    App app(&process);
 
-    return app.exec();
+
+NAN_MODULE_INIT(InitModule) {
+  NodeXmrigCpu::Init(target);
 }
+
+NODE_MODULE(xmrigCpu, InitModule);
