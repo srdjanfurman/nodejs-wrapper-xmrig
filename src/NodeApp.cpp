@@ -89,7 +89,8 @@ int NodeApp::exec()
     const xmrig::CpuConfig config;
 
 //    Mem::init(m_controller->config()->isHugePages());
-    Mem::init(config.isHugePages());
+//    Mem::init(config.isHugePages());
+    Mem::init(m_controller->init());
 
     xmrig::Summary::print(m_controller);
 
@@ -151,6 +152,9 @@ std::string NodeApp::getStatus()
 	return "";
 };
 
+void NodeApp::background()
+{
+}
 
 void NodeApp::release()
 {

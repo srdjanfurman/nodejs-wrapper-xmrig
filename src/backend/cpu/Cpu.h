@@ -25,25 +25,79 @@
 #ifndef XMRIG_CPU_H
 #define XMRIG_CPU_H
 
-
 #include "backend/cpu/interfaces/ICpuInfo.h"
-
+#include <stdint.h>
 
 namespace xmrig {
 
+class Cpu {
 
-class Cpu
-{
 public:
-    static ICpuInfo *info();
-    static rapidjson::Value toJSON(rapidjson::Document &doc);
-    static void release();
+	enum Flags {
+		X86_64 = 1, AES = 2, BMI2 = 4
+	};
 
-    inline static Assembly::Id assembly(Assembly::Id hint) { return hint == Assembly::AUTO ? Cpu::info()->assembly() : hint; }
+	static ICpuInfo* info();
+	static rapidjson::Value toJSON(rapidjson::Document &doc);
+	static void release();
+	inline static Assembly::Id assembly(Assembly::Id hint) {
+		return hint == Assembly::AUTO ? Cpu::info()->assembly() : hint;
+	}
+
+	static size_t optimalThreadsCount(size_t size, int maxCpuUsage);
+	static void init();
+
+	static inline bool hasAES() {
+		return (m_flags & AES) != 0;
+	}
+	static inline bool isX64() {
+		return (m_flags & X86_64) != 0;
+	}
+	static inline const char* brand() {
+		return m_brand;
+	}
+	static inline int cores() {
+		return m_totalCores;
+	}
+	static inline int l2() {
+		return m_l2_cache;
+	}
+	static inline int l3() {
+		return m_l3_cache;
+	}
+	static inline int sockets() {
+		return m_sockets;
+	}
+	static inline int threads() {
+		return m_totalThreads;
+	}
+
+private:
+	static void initCommon();
+
+	static bool m_l2_exclusive;
+	static char m_brand[64];
+	static int m_flags;
+	static int m_l2_cache;
+	static int m_l3_cache;
+	static int m_sockets;
+	static int m_totalCores;
+	static size_t m_totalThreads;
 };
+}
 
+//namespace xmrig {
 
-} /* namespace xmrig */
+//class Cpu
+//{
+//public:
+//    static ICpuInfo *info();
+//    static rapidjson::Value toJSON(rapidjson::Document &doc);
+//    static void release();
+//
+//    inline static Assembly::Id assembly(Assembly::Id hint) { return hint == Assembly::AUTO ? Cpu::info()->assembly() : hint; }
+//};
 
+//} /* namespace xmrig */
 
 #endif /* XMRIG_CPU_H */
