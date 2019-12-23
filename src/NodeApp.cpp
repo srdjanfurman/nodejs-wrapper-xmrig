@@ -31,6 +31,7 @@
 #include "base/io/Console.h"
 #include "base/io/log/Log.h"
 #include "base/kernel/Platform.h"
+#include "base/kernel/Signals.h"
 #include "core/config/Config.h"
 #include "core/Controller.h"
 #include "backend/cpu/Cpu.h"
@@ -83,8 +84,8 @@ int NodeApp::exec()
         return 2;
     }
 
-    background();
-    //m_signals = new xmrig::Signals(this);
+//    background();
+   // m_signals = new xmrig::Signals(this);
 
     const xmrig::CpuConfig config;
 
@@ -100,9 +101,9 @@ int NodeApp::exec()
 
         return 0;
     }
-
+//
     m_controller->start();
-    m_controller->network()->connect();
+//    m_controller->network()->connect();
 
     release();
     return 0;

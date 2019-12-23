@@ -3,10 +3,6 @@ project(xmrig)
 
 option(WITH_LIBCPUID        "Enable libcpuid support" ON)
 option(WITH_HWLOC           "Enable hwloc support" ON)
-option(WITH_CN_LITE         "Enable CryptoNight-Lite algorithms family" ON)
-option(WITH_CN_HEAVY        "Enable CryptoNight-Heavy algorithms family" ON)
-option(WITH_CN_PICO         "Enable CryptoNight-Pico algorithm" ON)
-option(WITH_CN_GPU          "Enable CryptoNight-GPU algorithm" ON)
 option(WITH_RANDOMX         "Enable RandomX algorithms family" ON)
 option(WITH_ARGON2          "Enable Argon2 algorithms family" ON)
 option(WITH_HTTP            "Enable HTTP protocol support (client/server)" ON)
@@ -26,6 +22,7 @@ option(HWLOC_DEBUG          "Enable hwloc debug helpers and log" OFF)
 
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake")
+add_definitions(/DXMRIG_ALGO_RANDOMX)
 
 
 include (CheckIncludeFile)
@@ -59,21 +56,6 @@ set(HEADERS
 
 set(HEADERS_CRYPTO
     src/backend/common/interfaces/IMemoryPool.h
-    src/crypto/cn/asm/CryptonightR_template.h
-    src/crypto/cn/c_blake256.h
-    src/crypto/cn/c_groestl.h
-    src/crypto/cn/c_jh.h
-    src/crypto/cn/c_skein.h
-    src/crypto/cn/CnAlgo.h
-    src/crypto/cn/CnCtx.h
-    src/crypto/cn/CnHash.h
-    src/crypto/cn/CryptoNight_monero.h
-    src/crypto/cn/CryptoNight_test.h
-    src/crypto/cn/CryptoNight.h
-    src/crypto/cn/groestl_tables.h
-    src/crypto/cn/hash.h
-    src/crypto/cn/skein_port.h
-    src/crypto/cn/soft_aes.h
     src/crypto/common/Algorithm.h
     src/crypto/common/Coin.h
     src/crypto/common/keccak.h
@@ -83,11 +65,6 @@ set(HEADERS_CRYPTO
     src/crypto/common/VirtualMemory.h
    )
 
-if (XMRIG_ARM)
-    set(HEADERS_CRYPTO "${HEADERS_CRYPTO}" src/crypto/cn/CryptoNight_arm.h)
-else()
-    set(HEADERS_CRYPTO "${HEADERS_CRYPTO}" src/crypto/cn/CryptoNight_x86.h)
-endif()
 
 set(SOURCES
     "${SOURCES_BASE}"
@@ -107,15 +84,8 @@ set(SOURCES
    )
 
 set(SOURCES_CRYPTO
-    src/crypto/cn/c_blake256.c
-    src/crypto/cn/c_groestl.c
-    src/crypto/cn/c_jh.c
-    src/crypto/cn/c_skein.c
-    src/crypto/cn/CnCtx.cpp
-    src/crypto/cn/CnHash.cpp
     src/crypto/common/Algorithm.cpp
     src/crypto/common/Coin.cpp
-    src/crypto/common/keccak.cpp
     src/crypto/common/MemoryPool.cpp
     src/crypto/common/Nonce.cpp
     src/crypto/common/VirtualMemory.cpp
@@ -179,19 +149,7 @@ include(cmake/randomx.cmake)
 include(cmake/argon2.cmake)
 include(cmake/OpenSSL.cmake)
 include(cmake/asm.cmake)
-include(cmake/cn-gpu.cmake)
 
-if (WITH_CN_LITE)
-    add_definitions(/DXMRIG_ALGO_CN_LITE)
-endif()
-
-if (WITH_CN_HEAVY)
-    add_definitions(/DXMRIG_ALGO_CN_HEAVY)
-endif()
-
-if (WITH_CN_PICO)
-    add_definitions(/DXMRIG_ALGO_CN_PICO)
-endif()
 
 if (WITH_EMBEDDED_CONFIG)
     add_definitions(/DXMRIG_FEATURE_EMBEDDED_CONFIG)
@@ -209,5 +167,5 @@ if (WITH_DEBUG_LOG)
     add_definitions(/DAPP_DEBUG)
 endif()
 
-add_executable(${CMAKE_PROJECT_NAME} ${HEADERS} ${SOURCES} ${SOURCES_OS} ${SOURCES_CPUID} ${HEADERS_CRYPTO} ${SOURCES_CRYPTO} ${SOURCES_SYSLOG} ${TLS_SOURCES} ${XMRIG_ASM_SOURCES} ${CN_GPU_SOURCES})
+add_executable(${CMAKE_PROJECT_NAME} ${HEADERS} ${SOURCES} ${SOURCES_OS} ${SOURCES_CPUID} ${HEADERS_CRYPTO} ${SOURCES_CRYPTO} ${SOURCES_SYSLOG} ${TLS_SOURCES} ${XMRIG_ASM_SOURCES})
 target_link_libraries(${CMAKE_PROJECT_NAME} ${XMRIG_ASM_LIBRARY} ${OPENSSL_LIBRARIES} ${UV_LIBRARIES} ${EXTRA_LIBS} ${CPUID_LIB} ${ARGON2_LIBRARY})

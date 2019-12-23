@@ -30,6 +30,7 @@
 #include "base/io/json/JsonChain.h"
 
 #include "base/kernel/interfaces/IConsoleListener.h"
+#include "base/kernel/interfaces/ISignalListener.h"
 #include <string>
 
 
@@ -38,10 +39,11 @@ class Httpd;
 class Network;
 class Options;
 
-
 namespace xmrig {
     class Controller;
     class IConsoleListener;
+    class Signals;
+
 }
 
 
@@ -71,6 +73,7 @@ private:
   uv_signal_t m_sigINT;
   uv_signal_t m_sigTERM;
   xmrig::Controller *m_controller;
+  xmrig::Signals *m_signals          = nullptr;
 };
 
 

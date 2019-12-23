@@ -3,7 +3,7 @@ const xmrigCpu = require('./')
 
 
 var jsonConfig = {
-    "algo": "cryptonight/1",
+    "algo": "rx/sfx",
     "api": {
         "port": 0,
         "access-token": null,
@@ -43,12 +43,13 @@ var jsonConfig = {
 
 var userWallet = "Safex5zeNaJdsHT4VBieWg1EtUMtTrVFARZm2jt2qRSef5DQK4RFcqgAMsLp4yDiQAB8W1JLBs7zgZUGErQXf8DFKQQdChvjRxQ55";
 //var pool = "safex.luckypool.io:3366";
-var pool = "pool.safexnews.net/:3311";
+var pool = "pool.safexnews.net:3311";
 var pool2 = "pool.safexnews.net:1111";
 var maxCpuUsage = 75;
 
 jsonConfig.pools[0].url = pool;
 jsonConfig.pools[0].user = userWallet;
+jsonConfig.pools[0].algo = "rx/sfx";
 jsonConfig["max-cpu-usage"] = maxCpuUsage;
 
 console.log("JS: User address:"+userWallet);

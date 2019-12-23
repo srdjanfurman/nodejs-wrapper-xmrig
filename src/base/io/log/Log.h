@@ -46,7 +46,7 @@ public:
         WARNING, // warning conditions
         NOTICE,  // normal but significant condition
         INFO,    // informational
-        DEBUG,   // debug-level messages
+        DEBUGGY,   // debug-level messages
     };
 
     static void add(ILogBackend *backend);

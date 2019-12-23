@@ -102,7 +102,7 @@ RandomX_ConfigurationSafex::RandomX_ConfigurationSafex()
     ScratchpadL3_Size = 2097152;
 }
 
-RandomX_ConfigurationBase::RandomX_ConfigurationBase()
+RandomX_ConfigurationBase::RandomX_ConfigurationBase() // @suppress("Class members should be properly initialized")
 	: ArgonMemory(262144)
 	, ArgonIterations(3)
 	, ArgonLanes(1)

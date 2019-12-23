@@ -160,10 +160,10 @@ bool xmrig::BaseConfig::save()
     rapidjson::Document doc;
     getJSON(doc);
 
-    if (Json::save(m_fileName, doc)) {
-        LOG_NOTICE("configuration saved to: \"%s\"", m_fileName.data());
-        return true;
-    }
+//    if (Json::save(m_fileName, doc)) {
+//        LOG_NOTICE("configuration saved to: \"%s\"", m_fileName.data());
+//        return true;
+//    }
 
-    return false;
+    return true;
 }
